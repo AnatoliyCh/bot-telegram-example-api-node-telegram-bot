@@ -12,7 +12,7 @@
   "author": "Anatoly",
   "license": "ISC",
   "dependencies": {
-    "node-telegram-bot-api": "^0.40.0",
-    "request": "^2.88.2"
+    "node-telegram-bot-api": "0.56.0",
+    "request": "2.88.2"
   }
 }

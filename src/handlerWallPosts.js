@@ -1,10 +1,9 @@
 const request = require("request");
-const config = require("./config/config");
 const api_VK = require("./config/api.VK");
 
 module.exports.getPost = function getPost(idPost, callback) {
   request(
-    api_VK.basePath + api_VK.methods.wall.getById(idPost, config.access_token),
+    api_VK.basePath + api_VK.methods.wall.getById(idPost, process.env.VK_API_TOKEN),
     (error, response, body) => {
       if (!error && response.statusCode == 200) {
         const tmpObject = JSON.parse(body).response[0];

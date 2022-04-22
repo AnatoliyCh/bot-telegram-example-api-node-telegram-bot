@@ -1,22 +1,23 @@
 const TelegramBot = require("node-telegram-bot-api");
-const config = require("./src/config/config");
 const { Post } = require("./src/model");
 const handler = require("./src/handlerWallPosts");
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(config.token, {
-  webHook: {
-    port: process.env.PORT
-  }
+const bot = new TelegramBot(process.env.BOT_TOKEN, {
+  // polling: true,
+  webHook: { port: process.env.PORT },
 });
 
-bot.setWebHook(`${process.env.APP_URL || config.host}/bot${config.token}`);
+const urlWebHook = `${process.env.APP_URL || process.env.HOST}/bot${
+  process.env.BOT_TOKEN
+}`;
+console.log(`urlWebHook: ${urlWebHook}`);
 
-bot.on("message", msg => {
+bot.setWebHook(urlWebHook);
+
+bot.on("message", (msg) => {
   const chatId = msg.chat.id;
   const idPost = handler.getIdPost(msg.text);
-  // send a message to the chat acknowledging receipt of their message
-  // bot.sendMessage(chatId, "9");
 
   idPost &&
     handler.getPost(idPost, (err, results) => {
