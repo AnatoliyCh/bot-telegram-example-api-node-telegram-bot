@@ -15,13 +15,19 @@ bot.on("message", (msg) => {
   const idPost = handler.getIdPost(msg.text);
 
   idPost &&
-    handler.getPost(idPost, (err, results) => {
+    handler.getPost(idPost, async (err, results) => {
       if (!err) {
-        const tmpPost = new Post(results);
-        if (tmpPost.attachments.length) {
-          bot.deleteMessage(chatId, msg.message_id);
-          bot.sendMediaGroup(chatId, tmpPost.attachments);
-        } else bot.sendMessage(chatId, tmpPost.text);
+        const tmpPost = new Post(results, msg.text);
+        const isAttachments = !!tmpPost.attachments.length;
+        bot.deleteMessage(chatId, msg.message_id);
+        if (isAttachments) await bot.sendMediaGroup(chatId, tmpPost.attachments);
+        // отправка доп. длинного текста или просто текста
+        if (!tmpPost.subText.length) return;
+        for (let i = isAttachments ? 1 : 0; i < tmpPost.subText.length; i++) {
+          const element = tmpPost.subText[i];
+          if (!element) continue;
+          bot.sendMessage(chatId, element);
+        }
       }
     });
 });
