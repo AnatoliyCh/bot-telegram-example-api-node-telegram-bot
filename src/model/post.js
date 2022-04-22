@@ -37,8 +37,13 @@ module.exports = class Post {
   textLengthHandler(text) {
     if (!text) return;
     this.subText = text.match(this.regExp);
-    if (this.subText.length)
-      for (let i = 0; i < this.subText.length - 1; i++)
-        this.subText[i] = `${this.subText[i]}...`;
+
+    if (this.subText.length) {
+      const lastIndex = this.subText.length - 1;
+      for (let i = 0; i < this.subText.length; i++) {
+        this.subText[i] = this.subText[i].replace(/^[.]\s/g, "").trim();
+        i !== lastIndex && (this.subText[i] = `${this.subText[i]}...`);
+      }
+    }
   }
 };
