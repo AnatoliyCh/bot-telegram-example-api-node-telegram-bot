@@ -8,12 +8,7 @@ const bot = new TelegramBot(process.env.BOT_TOKEN, {
   webHook: { port: process.env.PORT },
 });
 
-const urlWebHook = `${process.env.APP_URL || process.env.HOST}/bot${
-  process.env.BOT_TOKEN
-}`;
-console.log(`urlWebHook: ${urlWebHook}`);
-
-bot.setWebHook(urlWebHook);
+bot.setWebHook(`${process.env.APP_URL || process.env.HOST}/bot${process.env.BOT_TOKEN}`);
 
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
