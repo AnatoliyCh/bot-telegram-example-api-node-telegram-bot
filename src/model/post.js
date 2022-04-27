@@ -12,7 +12,7 @@ module.exports = class Post {
     this.regExp = new RegExp("(.|[" + this.specialСhar + "]){1," + length + "}", "g");
     this.attachmentsHandler(object);
     this.textLengthHandler(object.text);
-    this.subText[0] = `${this.originalLink}${this.subText[0]}`;
+    this.subText[0] = `${this.originalLink}${this.subText[0] ? this.subText[0] : ""}`;
     if (this.attachments.length)
       this.attachments[0].caption = this.subText[0] ? this.subText[0] : "";
   }

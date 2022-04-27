@@ -2,6 +2,8 @@ const TelegramBot = require("node-telegram-bot-api");
 const { Post } = require("./src/model");
 const handler = require("./src/handlerWallPosts");
 
+const regExpPostVk = new RegExp("vk\\.com/wall-\\d+_\\d+$");
+
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(process.env.BOT_TOKEN, {
   // polling: true,
@@ -12,6 +14,7 @@ bot.setWebHook(`${process.env.APP_URL || process.env.HOST}/bot${process.env.BOT_
 
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
+  if (!regExpPostVk.test(msg.text.trim())) return;
   const idPost = handler.getIdPost(msg.text);
 
   idPost &&
