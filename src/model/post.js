@@ -26,7 +26,9 @@ module.exports = class Post {
         return {
           type: item.type,
           caption: "",
-          media: Array.from(item.photo.sizes).pop().url,
+          media: Array.from(item.photo.sizes).reduce((a, b) =>
+            a.height + a.width > b.height + b.width ? a : b
+          ).url,
         };
       });
   }
